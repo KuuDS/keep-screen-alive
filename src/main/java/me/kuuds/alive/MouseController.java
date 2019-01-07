@@ -33,7 +33,7 @@ public class MouseController extends TimerTask {
                     updateLatestPosition();
                     try {
                         System.out.println("UPDATE SLEEP");
-                        Thread.sleep(updatePeriod);
+                        Thread.sleep(updatePeriod / 2);
                         System.out.println("UPDATE WAKEUP");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
