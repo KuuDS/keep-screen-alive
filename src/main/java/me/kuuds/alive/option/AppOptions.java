@@ -1,4 +1,4 @@
-package me.kuuds.alive;
+package me.kuuds.alive.option;
 
 import java.util.HashMap;
 import java.util.Map;

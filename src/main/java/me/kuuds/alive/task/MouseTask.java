@@ -1,4 +1,4 @@
-package me.kuuds.alive;
+package me.kuuds.alive.task;
 
 import java.awt.*;
 import java.util.Random;
@@ -8,8 +8,7 @@ import java.util.TimerTask;
  * @author kuuds
  * @since 0.0.1
  */
-@SuppressWarnings("AlibabaAvoidManuallyCreateThread")
-public class MouseController extends TimerTask {
+public class MouseTask extends TimerTask {
 
     private Robot robot;
     private int movePixelX;
@@ -21,57 +20,35 @@ public class MouseController extends TimerTask {
 
     private Point point = null;
 
-    private Thread updatePointInfoThread;
-
-    MouseController(int movePixelX, int movePixelY, final long updatePeriod) {
+    public MouseTask(int movePixelX, int movePixelY) {
         this.movePixelX = movePixelX;
         this.movePixelY = movePixelY;
         random = new Random();
-        //noinspection AlibabaAvoidManuallyCreateThread
-        updatePointInfoThread = new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    updateLatestPosition();
-                    try {
-                        System.out.println("UPDATE SLEEP");
-                        Thread.sleep(updatePeriod / 2);
-                        System.out.println("UPDATE WAKEUP");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        updatePointInfoThread.setName("POSITION-UPDATE");
-
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+            System.err.println("Error: Can't get mouse.");
+            System.exit(-1);
+        }
     }
-
 
     @Override
     public void run() {
         keepAlive();
     }
 
-    void init() {
-        try {
-            robot = new Robot();
-            updatePointInfoThread.start();
-        } catch (AWTException e) {
-            System.out.println("Error: Can't get mouse.");
-            System.exit(-1);
-        }
-    }
-
     private void keepAlive() {
         if (!isMoved()) {
             move(movePixelX, movePixelY);
         }
-
+        updateLatestPosition();
     }
 
     private boolean isMoved() {
         Point current = MouseInfo.getPointerInfo().getLocation();
-        return point != null && latestX != current.x || latestY != current.y;
+        System.out.println("Check if moved. current: " + current.x + ", " + current.y + ". last: " + latestX + ',' + latestY);
+        return latestX != current.x || latestY != current.y;
     }
 
     private void move(int x, int y) {
@@ -80,14 +57,14 @@ public class MouseController extends TimerTask {
         System.out.println("MOVE!! FROM: " + point.x + ", " + point.y);
         robot.waitForIdle();
         robot.mouseMove(point.x + x * randX, point.y + y * randY);
+        robot.waitForIdle();
         robot.mouseMove(point.x, point.y);
         point = MouseInfo.getPointerInfo().getLocation();
         System.out.println("MOVE!! TO: " + point.x + ", " + point.y);
-
+        updateLatestPosition();
     }
 
     private void updateLatestPosition() {
-
         point = MouseInfo.getPointerInfo().getLocation();
         System.out.println("UPDATE!! " + point.x + "," + point.y);
         latestX = point.x;

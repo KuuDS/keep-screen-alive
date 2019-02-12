@@ -1,6 +1,8 @@
 package me.kuuds.alive;
 
-import java.awt.*;
+import me.kuuds.alive.task.MouseTask;
+import me.kuuds.alive.ui.TrayBuilder;
+
 import java.util.Timer;
 
 /**
@@ -14,16 +16,10 @@ public class KeepAliveApp {
 
         int x = Integer.valueOf(System.getProperty("moveX","1"));
         int y = Integer.valueOf(System.getProperty("moveY","1"));
-        long loopPeriod = Long.parseLong(System.getProperty("loopPeriod", "5"));
-
-        if(SystemTray.isSupported()){
-            new TrayBuilder();
-        }
-
-        MouseController mouseController = new MouseController(x, y, loopPeriod * 60 * 1000);
-        mouseController.init();
+        long loopPeriod = Long.parseLong(System.getProperty("loopPeriod", "10"));
+        TrayBuilder.build();
 
         Timer timer = new Timer();
-        timer.schedule(mouseController, 1000L, loopPeriod);
+        timer.schedule(new MouseTask(x, y), 1000L, loopPeriod * 1000  * 60);
     }
 }
