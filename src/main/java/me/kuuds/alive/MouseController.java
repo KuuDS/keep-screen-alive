@@ -80,6 +80,7 @@ public class MouseController extends TimerTask {
         System.out.println("MOVE!! FROM: " + point.x + ", " + point.y);
         robot.waitForIdle();
         robot.mouseMove(point.x + x * randX, point.y + y * randY);
+        robot.mouseMove(point.x, point.y);
         point = MouseInfo.getPointerInfo().getLocation();
         System.out.println("MOVE!! TO: " + point.x + ", " + point.y);
 
