@@ -1,31 +1,42 @@
 package me.kuuds.alive.option;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.Properties;
 
 public final class AppOptions {
 
-    final Map<String, String> optionMap;
+    public enum Options {
+        MOVE_X,
+        MOVE_Y,
+        UPDATE_PERIOD
+    }
+
+    private final EnumMap<Options, String> optionMap;
+
+    public AppOptions() {
+        this(null);
+    }
 
     public AppOptions(Properties properties) {
-        optionMap = new HashMap<>();
-        initialize(properties);
+        optionMap = new EnumMap<>(Options.class);
+        if (properties != null) {
+            initialize(properties);
+        }
     }
 
-    private void initialize(Properties properties){
+    private void initialize(Properties properties) {
 
     }
 
-    public String getOption(String properties){
-        return optionMap.get(properties);
+    public String get(Options key) {
+        return optionMap.get(key);
     }
 
-    public String getOption(String properties, String defaultValue){
-        return optionMap.getOrDefault(properties, defaultValue);
+    public void saveProperties() {
+
     }
 
-    void saveProperties(){
-
+    public String set(Options key, String value) {
+        return optionMap.put(key, value);
     }
 }

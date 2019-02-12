@@ -6,8 +6,6 @@ import java.net.URL;
 
 public class TrayBuilder {
 
-    private PopupMenu trayMenu;
-    private TrayIcon trayIcon;
     private Dimension dimension;
     private volatile static TrayBuilder builder;
 
@@ -29,8 +27,8 @@ public class TrayBuilder {
             dimension = systemTray.getTrayIconSize();
             System.out.println("icon size: " + dimension.height + " px, " + dimension.width + " px.");
 
-            trayIcon = buildTrayIcon();
-            trayMenu = buildTrayMenu();
+            TrayIcon trayIcon = buildTrayIcon();
+            PopupMenu trayMenu = buildTrayMenu();
             trayIcon.setPopupMenu(trayMenu);
             systemTray.add(trayIcon);
         }
@@ -46,13 +44,21 @@ public class TrayBuilder {
     private PopupMenu buildTrayMenu() {
         PopupMenu popupMenu = new PopupMenu();
 
-        MenuItem titleMenuItem = new MenuItem("Keep Windows Alive");
+        popupMenu.insert(titleMenuItem(), 0);
+        popupMenu.insertSeparator(1);
+        popupMenu.insert(exitMenuItem(), 2);
+        return popupMenu;
+    }
 
+    private MenuItem titleMenuItem() {
+        MenuItem titleMenuItem = new MenuItem("Keep Windows Alive");
+        titleMenuItem.setEnabled(false);
+        return titleMenuItem;
+    }
+
+    private MenuItem exitMenuItem() {
         MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.addActionListener(e -> System.exit(0));
-
-        popupMenu.insert(titleMenuItem, 0);
-        popupMenu.insert(exitMenuItem, 1);
-        return popupMenu;
+        return exitMenuItem;
     }
 }

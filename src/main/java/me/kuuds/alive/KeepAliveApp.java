@@ -1,7 +1,9 @@
 package me.kuuds.alive;
 
+import me.kuuds.alive.option.AppOptions;
 import me.kuuds.alive.task.MouseTask;
 import me.kuuds.alive.ui.TrayBuilder;
+import me.kuuds.alive.option.AppOptions.Options;
 
 import java.util.Timer;
 
@@ -12,14 +14,25 @@ import java.util.Timer;
 
 public class KeepAliveApp {
 
-    public static void main(String[] args) {
+    private static AppOptions appOptions;
 
-        int x = Integer.valueOf(System.getProperty("moveX","1"));
-        int y = Integer.valueOf(System.getProperty("moveY","1"));
-        long loopPeriod = Long.parseLong(System.getProperty("loopPeriod", "10"));
+    public static void main(String[] args) {
+        initOptions();
+
         TrayBuilder.build();
+
+        int x = Integer.valueOf(appOptions.get(Options.MOVE_X));
+        int y = Integer.valueOf(appOptions.get(Options.MOVE_Y));
+        long loopPeriod = Long.parseLong(appOptions.get(Options.UPDATE_PERIOD));
 
         Timer timer = new Timer();
         timer.schedule(new MouseTask(x, y), 1000L, loopPeriod * 1000  * 60);
+    }
+
+    private static void initOptions(){
+        appOptions = new AppOptions();
+        appOptions.set(AppOptions.Options.MOVE_X, "1");
+        appOptions.set(AppOptions.Options.MOVE_Y, "1");
+        appOptions.set(AppOptions.Options.UPDATE_PERIOD, "1");
     }
 }
