@@ -5,7 +5,8 @@ import java.util.Random;
 import java.util.TimerTask;
 
 /**
- * @author lkf7700
+ * @author kuuds
+ * @since 0.0.1
  */
 @SuppressWarnings("AlibabaAvoidManuallyCreateThread")
 public class MouseController extends TimerTask {
@@ -74,8 +75,8 @@ public class MouseController extends TimerTask {
     }
 
     private void move(int x, int y) {
-        int randX = random.nextInt(100) % 2 == 0 ? 1 : -1;
-        int randY = random.nextInt(100) % 2 == 0 ? 1 : -1;
+        int randX = random.nextInt(2) == 1 ? 1 : -1;
+        int randY = random.nextInt(2) == 1 ? 1 : -1;
         System.out.println("MOVE!! FROM: " + point.x + ", " + point.y);
         robot.waitForIdle();
         robot.mouseMove(point.x + x * randX, point.y + y * randY);
