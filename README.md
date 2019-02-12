@@ -1,1 +1,10 @@
-使用说明： 编译后，运行run.bat即可，cmd窗口可以关闭
+## Use Case
+
+Run `bin/start.bat`
+
+## Options
+
+|Option|Usage|Values|
+|------|-----|------|
+|moveX|-|int|
+|moveY|-|int|
