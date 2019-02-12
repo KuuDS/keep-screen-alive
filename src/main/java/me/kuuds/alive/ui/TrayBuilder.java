@@ -54,7 +54,7 @@ public class TrayBuilder {
     private TrayIcon buildTrayIcon() {
         URL url = this.getClass().getResource("/images/tray_icon.png");
         ImageIcon icon = new ImageIcon(url);
-        Image image = icon.getImage().getScaledInstance(dimension.width, dimension.height, 10);
+        Image image = icon.getImage().getScaledInstance(dimension.width, dimension.height, Image.SCALE_SMOOTH);
         return new TrayIcon(image);
     }
 
