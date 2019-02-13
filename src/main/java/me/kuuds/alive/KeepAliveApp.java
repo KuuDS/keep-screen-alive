@@ -38,7 +38,7 @@ public class KeepAliveApp {
         long loopPeriod = Long.parseLong(appOptions.get(Options.UPDATE_PERIOD));
 
         Timer timer = new Timer();
-        timer.schedule(new MouseTask(x, y), 1000L, loopPeriod * 1000  * 60);
+        timer.schedule(new MouseTask(x, y), 1000L, loopPeriod * 1000  * 6);
     }
 
     private static void initOptions(){

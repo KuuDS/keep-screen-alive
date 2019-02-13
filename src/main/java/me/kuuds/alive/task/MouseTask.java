@@ -31,7 +31,7 @@ public class MouseTask extends TimerTask {
     private int latestX;
     private int latestY;
 
-    private Point point = null;
+    private Point current = null;
 
     public MouseTask(int movePixelX, int movePixelY) {
         this.movePixelX = movePixelX;
@@ -53,35 +53,41 @@ public class MouseTask extends TimerTask {
 
     private void keepAlive() {
         if (!isMoved()) {
-            move(movePixelX, movePixelY);
+            try {
+                move(movePixelX, movePixelY);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.err.println("thread interrupted while move.");
+            }
         }
         updateLatestPosition();
     }
 
     private boolean isMoved() {
-        Point current = MouseInfo.getPointerInfo().getLocation();
+        current = MouseInfo.getPointerInfo().getLocation();
         System.out.println("Check if moved. current: " + current.x + ", " + current.y + ". last: " + latestX + ',' + latestY);
         return latestX != current.x || latestY != current.y;
     }
 
-    private void move(int x, int y) {
+    private void move(int x, int y) throws InterruptedException {
         int randX = random.nextInt(2) == 1 ? 1 : -1;
         int randY = random.nextInt(2) == 1 ? 1 : -1;
-        System.out.println("MOVE!! FROM: " + point.x + ", " + point.y);
+        System.out.println("MOVE!! FROM: " + current.x + ", " + current.y);
         robot.waitForIdle();
-        robot.mouseMove(point.x + x * randX, point.y + y * randY);
-        robot.waitForIdle();
-        robot.mouseMove(point.x, point.y);
-        point = MouseInfo.getPointerInfo().getLocation();
-        System.out.println("MOVE!! TO: " + point.x + ", " + point.y);
-        updateLatestPosition();
+        robot.mouseMove(current.x + x * randX, current.y + y * randY);
+        printCurrentPointLocation();
     }
 
     private void updateLatestPosition() {
-        point = MouseInfo.getPointerInfo().getLocation();
-        System.out.println("UPDATE!! " + point.x + "," + point.y);
-        latestX = point.x;
-        latestY = point.y;
+        current = MouseInfo.getPointerInfo().getLocation();
+        System.out.println("Update Location " + current.x + "," + current.y);
+        latestX = current.x;
+        latestY = current.y;
+    }
+
+    private void printCurrentPointLocation() {
+        current = MouseInfo.getPointerInfo().getLocation();
+        System.out.println("Current Location: " + current.x + ", " + current.y);
     }
 
 }
