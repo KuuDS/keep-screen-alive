@@ -60,7 +60,6 @@ public class TrayBuilder {
 
     private PopupMenu buildTrayMenu() {
         PopupMenu popupMenu = new PopupMenu();
-
         popupMenu.insert(titleMenuItem(), 0);
         popupMenu.insertSeparator(1);
         popupMenu.insert(exitMenuItem(), 2);
@@ -69,7 +68,8 @@ public class TrayBuilder {
 
     private MenuItem titleMenuItem() {
         MenuItem titleMenuItem = new MenuItem("Keep Windows Alive");
-        titleMenuItem.setEnabled(false);
+        titleMenuItem.setFont(new Font("sans-serif", Font.BOLD, 12));
+        titleMenuItem.setEnabled(true);
         return titleMenuItem;
     }
 
