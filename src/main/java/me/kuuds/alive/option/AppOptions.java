@@ -31,7 +31,7 @@ public final class AppOptions {
     private final EnumMap<Options, String> optionMap;
 
     public AppOptions() {
-        this(null);
+        this(System.getProperties());
     }
 
     public AppOptions(Properties properties) {
@@ -42,6 +42,9 @@ public final class AppOptions {
     }
 
     private void initialize(Properties properties) {
+        optionMap.put(Options.MOVE_X, properties.getProperty("moveX", "1"));
+        optionMap.put(Options.MOVE_Y, properties.getProperty("moveY", "1"));
+        optionMap.put(Options.UPDATE_PERIOD, properties.getProperty("loopPeriod", "10"));
 
     }
 
