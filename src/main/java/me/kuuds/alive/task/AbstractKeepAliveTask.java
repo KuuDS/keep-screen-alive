@@ -15,6 +15,7 @@ package me.kuuds.alive.task;
 
 import java.util.TimerTask;
 
+@Deprecated
 public abstract class AbstractKeepAliveTask extends TimerTask {
     @Override
     public void run() {

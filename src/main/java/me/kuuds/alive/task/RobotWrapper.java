@@ -17,11 +17,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class RobotWrapper {
 
     private final List<Robot> ROBOTS;
     private final Integer MAX_SIZE;
-    private int cur = -1;
+    private volatile int cur = -1;
     private static RobotWrapper instance = new RobotWrapper(1);
 
     public synchronized static RobotWrapper getInstance(){

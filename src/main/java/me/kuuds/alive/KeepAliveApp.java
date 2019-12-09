@@ -13,10 +13,9 @@
  */
 package me.kuuds.alive;
 
-import me.kuuds.alive.option.AppOptions;
 import me.kuuds.alive.task.KeyboardTask;
 import me.kuuds.alive.ui.TrayBuilder;
-import me.kuuds.alive.option.AppOptions.Options;
+import me.kuuds.alive.AppOptions.Options;
 
 import java.util.Timer;
 
@@ -24,6 +23,7 @@ import java.util.Timer;
  * @author kuuds
  * @since 0.0.1
  */
+@Deprecated
 public class KeepAliveApp {
 
     private static AppOptions appOptions;
@@ -33,8 +33,8 @@ public class KeepAliveApp {
 
         TrayBuilder.build();
 
-        int x = Integer.valueOf(appOptions.get(Options.MOVE_X));
-        int y = Integer.valueOf(appOptions.get(Options.MOVE_Y));
+        int x = Integer.parseInt(appOptions.get(Options.MOVE_X));
+        int y = Integer.parseInt(appOptions.get(Options.MOVE_Y));
         long loopPeriod = Long.parseLong(appOptions.get(Options.UPDATE_PERIOD));
 
         Timer timer = new Timer();

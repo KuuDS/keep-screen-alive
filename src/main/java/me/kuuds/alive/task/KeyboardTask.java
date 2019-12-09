@@ -16,6 +16,7 @@ package me.kuuds.alive.task;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+@Deprecated
 public class KeyboardTask extends AbstractKeepAliveTask {
 
     private final RobotWrapper robotWrapper;

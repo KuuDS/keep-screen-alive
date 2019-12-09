@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.kuuds.alive.option;
+package me.kuuds.alive;
 
 import java.util.EnumMap;
 import java.util.Properties;
@@ -20,6 +20,7 @@ import java.util.Properties;
  * @author kuuds
  * @since 0.0.1
  */
+@Deprecated
 public final class AppOptions {
 
     public enum Options {

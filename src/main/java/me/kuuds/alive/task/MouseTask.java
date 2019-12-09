@@ -21,6 +21,7 @@ import java.util.TimerTask;
  * @author kuuds
  * @since 0.0.1
  */
+@Deprecated
 public class MouseTask extends TimerTask {
 
     private Robot robot;
