@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,13 +15,14 @@ import java.util.concurrent.TimeUnit;
 public class ListenerImpl implements Listener {
 
   private  ScheduledExecutorService executorService;
-  private  Iterable<EventFactory> eventFactories;
+  private List<EventFactory> eventFactories;
   private  Duration loopDuration;
-  private  Robot robot;
+  private Robot robot;
 
   public ListenerImpl(Duration loopDuration) {
     try {
       executorService = Executors.newSingleThreadScheduledExecutor();
+      log.debug("loop duration is [{}]s.", loopDuration.getSeconds());
       this.loopDuration = loopDuration;
       eventFactories = new LinkedList<>();
       robot = new Robot();
@@ -33,6 +35,8 @@ public class ListenerImpl implements Listener {
 
   @Override
   public Listener register(EventFactory factory) {
+    log.debug("add event factory [{}].", factory.getClass().getTypeName());
+    eventFactories.add(factory);
     return this;
   }
 
@@ -40,11 +44,13 @@ public class ListenerImpl implements Listener {
   public Listener listen() {
     executorService.scheduleAtFixedRate(
       () -> {
+        log.debug("start to keepalive.");
         boolean result = false;
         for (EventFactory eventFactory : eventFactories) {
           result = result || eventFactory.active();
         }
         if (result) {
+          log.info("need keep alive.");
           keepAlive();
         }
       },

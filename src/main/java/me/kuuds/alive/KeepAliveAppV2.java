@@ -14,15 +14,11 @@
 package me.kuuds.alive;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kuuds.alive.AppOptions.Options;
 import me.kuuds.alive.listen.DefaultEventFactory;
 import me.kuuds.alive.listen.Listener;
-import me.kuuds.alive.task.KeyboardTask;
 import me.kuuds.alive.ui.TrayBuilder;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.Timer;
 
 /**
  * @author kuuds
@@ -40,13 +36,13 @@ public class KeepAliveAppV2 {
       try {
         switch (param) {
           case "--period":
-            keepAlivePeriod = Duration.ofSeconds(Integer.parseInt(args[i++]));
+            keepAlivePeriod = Duration.ofSeconds(Integer.parseInt(args[++i]));
             break;
         }
       } catch (NumberFormatException e) {
-        log.error("illegal arguments {}, value {}.", args[i-1], args[i], e);
+        log.error("illegal arguments [{}], value [{}].", args[i-1], args[i], e);
       } catch (IndexOutOfBoundsException e) {
-        log.error("illegal arguments {}, value null", args[i-1], e);
+        log.error("illegal arguments [{}], value null", args[i-1], e);
       }
     }
 
